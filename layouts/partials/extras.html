@@ -1,0 +1,19 @@
+{{- $t := .Title }}
+{{- $s := site.Title }}
+{{- if in (lower $s) (lower $t) }}
+  {{- $t = false }}
+{{- end }}
+
+{{- $compositeTitle := "" -}}
+
+{{ if and $t (ne (trim (lower $s) "") (trim (lower $t) "")) }}
+    {{ $compositeTitle = print $t " | " $s  }}
+{{ else }}
+    {{ $compositeTitle = "$s" }}
+{{ end }}
+
+{{- partial "partials/og.html" (dict "context" . "title" $compositeTitle ) -}}
+
+{{- template "_internal/schema.html" . -}}
+{{- template "_internal/twitter_cards.html" . -}}
+{{- template "_internal/google_analytics.html" . }}
